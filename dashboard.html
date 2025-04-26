@@ -3,109 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Farm Health Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Agriculture Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-</head>
-
-
-<style>
+  <link rel="stylesheet" href="style.css">
+  <style>
     body {
-  font-family: Arial, sans-serif;
-  background-color: black;
-  color: white;
-  margin: 0;
-  padding: 20px;
-}
+      background: linear-gradient(black, rgb(6, 52, 6));
+      color: #c2f0c2;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding:  0;
+    }
+   body a{
+    text-decoration: none;
+   }
+    .dashboard {
+      padding: 20px;
+    }
 
-h1 {
-  text-align: center;
-  color: green;
-}
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-#status {
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
+    .header h1:nth-child(2){
+      color: white;
+      font-size: 80px;
+    }
 
-#data-container {
-  background: black;
-  padding: 20px;
-  border-radius: 8px;
-  color: whi;
-  max-width: 600px;
-  margin: auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+    .chart-container {
+      max-width: 500px;
+      margin: 0 auto 30px auto;
+      background-color: #253b25;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,255,0,0.2);
+    }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+    .info, .disease-section, .weather-section {
+      text-align: center;
+      margin: 20px auto;
+      max-width: 800px;
+    }
 
-li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
+    .disease-section, .weather-section {
+      background-color: #2d4b2d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,255,0,0.15);
+    }
 
-.toHome{
-    width: 14%;
-    border-radius: 10px;
-    background-color: rgb(157, 197, 197);
-    padding: 1% 2%;
-}
-.toHome a{
-    font-size: 18px;
-    color: white;
-}
-body a{text-decoration: none;}
-</style>
-<body class="bg-green-50 min-h-screen p-6">
-    <div class="toHome">
-        <a href="index.html">Back to Home</a>
+    .disease-section h2, .weather-section h2 {
+      color: #66ff66;
+    }
+
+    .disease-section ul, .weather-section ul {
+      text-align: left;
+      margin: 0 auto;
+      padding-left: 20px;
+    }
+
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html">  <div class="logo" >ADAPTA</div></a>
+          <ul class="nav-links">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li><a href="about.html" class="nav-link">About</a></li>
+              <li><a href="profile.html" class="nav-link">Profile</a></li>
+              <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          </ul>
+          <div class="toggle-button">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+          </div>
+        </nav>
+  <div class="dashboard">
+   
+    <div class="header">
+    
+        <h1 class="mt-2">Welcome Back!!</h1>
+      <h1 class="mb-5">Your Dashboard</h1>
     </div>
-  <header class="mb-6">
-    <h1 class="text-3xl font-bold text-green-800 mt-5">🌾 Farm Health Dashboard</h1>
-    <p class="text-gray-600 text-center mb-5">Monitor real-time crop data and prevent disease spread</p>
-  </header>
 
-  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-xl shadow p-4">
-      <h2 class="text-xl font-semibold text-green-700">🌤️ Weather</h2>
-      <p id="weather" class="text-gray-800">Loading...</p>
+    <div class="chart-container">
+      <canvas id="cropPieChart"></canvas>
     </div>
-    <div class="bg-white rounded-xl shadow p-4">
-      <h2 class="text-xl font-semibold text-green-700">🌡️ Temperature</h2>
-      <p id="temperature" class="text-gray-800">Loading...</p>
+
+    <div class="info">
+      <p>
+        This dashboard displays the proportion of agricultural land affected by recent pest outbreaks. Timely intervention can help reduce the spread of pests and diseases and safeguard crop health. Monitoring data helps in planning and implementing better farming practices.
+      </p>
     </div>
-    <div class="bg-white rounded-xl shadow p-4">
-      <h2 class="text-xl font-semibold text-green-700">🕒 Last Scan</h2>
-      <p id="lastScan" class="text-gray-800">Waiting for data...</p>
+
+    <div class="disease-section">
+      <h2>Common Crop Diseases & Preventive Measures</h2>
+      <ul>
+        <li><strong>Blight (Potatoes, Tomatoes):</strong> Use disease-resistant varieties, avoid overhead irrigation, and rotate crops.</li>
+        <li><strong>Rust (Wheat, Beans):</strong> Apply fungicides early, remove infected plants, and practice good field hygiene.</li>
+        <li><strong>Downy Mildew (Grapes, Cucurbits):</strong> Ensure good air circulation, use fungicides, and avoid excessive humidity.</li>
+        <li><strong>Wilt (Bananas, Tomatoes):</strong> Use clean planting material, solarize soil, and implement crop rotation.</li>
+        <li><strong>Leaf Spot (Rice, Maize):</strong> Avoid dense planting, apply proper fertilizers, and remove crop debris.</li>
+      </ul>
     </div>
-    <div class="bg-white rounded-xl shadow p-4">
-      <h2 class="text-xl font-semibold text-green-700">📍 Location</h2>
-      <p id="location" class="text-gray-800">Loading...</p>
+
+    <div class="weather-section">
+      <h2>Weather Variations & Tips</h2>
+      <ul>
+        <li><strong>Drought:</strong> Use drought-tolerant crops, practice mulching, and irrigate efficiently.</li>
+        <li><strong>Heavy Rainfall:</strong> Ensure proper drainage, use raised beds, and avoid water-sensitive crops.</li>
+        <li><strong>Frost:</strong> Use frost covers, plant early-maturing varieties, and avoid low-lying areas.</li>
+        <li><strong>High Temperatures:</strong> Provide shade, use reflective mulches, and irrigate during cooler hours.</li>
+        <li><strong>Windy Conditions:</strong> Use windbreaks or hedgerows to protect crops from damage.</li>
+      </ul>
     </div>
-  </section>
+  </div>
 
-  <section class="bg-white rounded-xl shadow p-4 mb-6">
-    <h2 class="text-xl font-semibold text-green-700 mb-4">🌱 Farm Disease Overview</h2>
-    <canvas id="diseaseChart" width="400" height="200"></canvas>
-  </section>
-
-  <section class="bg-white rounded-xl shadow p-4">
-    <h2 class="text-xl font-semibold text-green-700 mb-4">🩺 Detailed Analysis & Prevention</h2>
-    <div id="analysis" class="text-gray-800">
-      Waiting for analysis data from scanning device...
-    </div>
-  </section>
-
-  <script src="app.js" src="server.js">
-
-
-
+  <script>
+    const ctx = document.getElementById('cropPieChart').getContext('2d');
+    const cropPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Affected Area', 'Non-Affected Area'],
+        datasets: [{
+          label: 'Crop Area Status',
+          data: [35, 65], // Example values in percentages
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(75, 192, 75, 0.7)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(75, 192, 75, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: {
+              color: '#c2f0c2'
+            }
+          }
+        }
+      }
+    });
   </script>
 </body>
 </html>

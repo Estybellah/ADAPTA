@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dark Themed Sign Up</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: black;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: #1f1f1f;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 400px;
+}
+
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: greenyellow;
+}
+
+.form-control {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: green;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: green;
+}
+
+.container h5{
+  font-size: 13px;
+  margin-top: 2%;
+  text-align: center;
+}
+.container h5 a{
+  color: greenyellow;
+  text-decoration: none;
+
+}
+
+.message {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ff6b6b;
+}
+body a{
+  color: white;
+  text-decoration: none;
+}
+</style>
+<body>
+
+  <div class="container">
+
+    <form class="signup-form" id="signupForm">
+      <h2>Sign Up</h2>
+      <div class="form-control">
+        <label for="username">Username</label>
+        <input type="text" id="username" required />
+      </div>
+      <div class="form-control">
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="form-control">
+        <label for="password">Password</label>
+        <input type="password" id="password" required />
+      </div>
+      <div class="form-control">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" required />
+      </div>
+      
+          <button type="submit"><a href="profile.html">Create account</a>
+
+          </button>
+        
+      <h5>Already have an account? <a href="login.html" >Log In</a></h5>
+      <p class="message" id="message"></p>
+
+      <a href="index.html">
+        <h5>Back To Home</h5>
+      </a>
+    </form>
+  </div>
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const message = document.getElementById("message");
+
+  // Simple validation
+  if (!username || !email || !password || !confirmPassword) {
+    message.textContent = "Please fill in all fields.";
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    message.textContent = "Passwords do not match.";
+    return;
+  }
+
+  if (password.length < 6) {
+    message.textContent = "Password must be at least 6 characters.";
+    return;
+  }
+
+  // Simulated authentication success
+  message.style.color = "#4caf50";
+  message.textContent = "Account created successfully!";
+
+  // Reset form after a short delay
+  setTimeout(() => {
+    document.getElementById("signupForm").reset();
+    message.textContent = "";
+  }, 3000);
+});
+
+  </script>
+</body>
+
+
+</html>

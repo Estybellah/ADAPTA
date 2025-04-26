@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agri Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+
+<style>
+:root {
+  --bg: black;
+  --card-bg: #1c1c1c;
+  --text: #f1f1f1;
+  --muted: #aaa;
+  --green: #00c853;
+  --blue: #1e88e5;
+  --orange: #ffa000;
+  --red: #e53935;
+  --gray: #888;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background-color: var(--bg-dark);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar nav a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.navbar nav a.active {
+  border-bottom: 2px solid var(--accent);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+body h1{
+    color: rgba(172, 255, 47, 0.75);
+    text-align: center;
+    font-size: 50px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #0005;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: var(--muted);
+}
+.card-1{
+  background-color: rgba(17, 173, 17, 0.359);
+}
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.items li,
+.file-list li {
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  color: var(--text);
+}
+
+.bars {
+  display: flex;
+  gap: 0.3rem;
+  margin: 1rem 0;
+}
+
+.bar {
+  height: 12px;
+  border-radius: 5px;
+}
+
+.blue { background-color: var(--blue); }
+.green { background-color: var(--green); }
+.yellow { background-color: var(--orange); }
+.red { background-color: var(--red); }
+.gray { background-color: var(--gray); }
+
+.badge {
+  background-color: #333;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+}
+
+.profile-button {
+  font-size: 0.8rem;
+  background-color: #333;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.download-btn {
+  background-color: var(--blue);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.file-list .icon {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+  margin-right: 8px;
+}
+
+</style>
+<body>
+    <header class="navbar">
+        <div class="logo">ADAPTA</div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a  href="#">Profile</a></li>
+            <li><a class="active" href="dashboard.html">Dashboard</a></li>
+      
+          </ul>
+        </nav>
+
+      </header>
+    
+      <h1>Your Dashboard</h1>
+  <div class="dashboard">
+    <!-- Crop Health -->
+  <div class="card-1">
+    <div class="card conversion">
+      <div class="card-header">
+        <span>Crop Health</span>
+        <span>April 2025 📅</span>
+      </div>
+      <canvas id="cropHealthChart"></canvas>
+      <div class="stats">
+        <p><strong>78%</strong><br>Healthy</p>
+        <p><strong>22%</strong><br>Affected</p>
+      </div>
+    </div>
+  </div>
+
+    <!-- Field Summary -->
+    <div class="card conversion">
+      <div class="card-header">
+        <span>Field Summary</span>
+        <span>Current Season</span>
+      </div>
+      <ul class="items">
+        <li>🌽 Corn — 8.5 ha (Expected: 6.2 tons)</li>
+        <li>🌾 Wheat — 5 ha (Expected: 3.8 tons)</li>
+        <li>🥔 Potatoes — 3.2 ha (Expected: 5.1 tons)</li>
+      </ul>
+    </div>
+
+    <!-- Storage -->
+    <div class="card storage">
+      <div class="card-header">
+        <span>Storage <span class="badge">100 Tons</span></span>
+        <span class="profile-button">👨‍🌾 Profile</span>
+      </div>
+      <p><strong>Used:</strong> 72.5 T | <strong>Available:</strong> 27.5 T</p>
+      <div class="bars">
+        <div class="bar green" style="width:50%">Corn</div>
+        <div class="bar yellow" style="width:15%">Wheat</div>
+        <div class="bar orange" style="width:7.5%">Potatoes</div>
+      </div>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="card files">
+      <div class="card-header">
+        <span>Recent Records</span>
+        <button class="download-btn">Log Activity</button>
+      </div>
+      <ul class="file-list">
+        <li>💧 Irrigation on Corn Field — 24 Apr</li>
+        <li>🧪 Pesticide Applied (Wheat) — 22 Apr</li>
+        <li>🌱 Planted Potatoes — 20 Apr</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('cropHealthChart').getContext('2d');
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [78, 22],
+      backgroundColor: ['#4caf50', '#e53935'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    cutout: '70%',
+    plugins: {
+      tooltip: { enabled: true },
+      legend: { display: false },
+    }
+  }
+});
+
+  </script>
+</body>
+</html>
